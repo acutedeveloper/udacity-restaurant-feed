@@ -127,6 +127,7 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
 	margin: 0;
+	margin-bottom: 10px;
 	width: 100%;
 }
 .filter-options select {
@@ -139,8 +140,16 @@ nav h1 a {
 	margin-bottom: 10px;
 	width: 200px;
 	height: 30px;
+	position: relative;
+	margin-right: 20px;
+
 }
 
+.filter-options select:focus {
+	outline: 2px dashed #fff;
+	outline-offset: 5px;
+	border-radius: 5px;
+}
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
@@ -182,7 +191,7 @@ nav h1 a {
   max-width: 100%;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -229,6 +238,13 @@ nav h1 a {
 .inside #map {
 	height: 180px;
 }
+/* .maincontent__column:first-child {
+	order: 2;
+} */
+.maincontent__grid {
+	display: flex;
+	flex-direction: column;
+}
 @media screen and (min-width: 768px){
 	.inside #map-container {
 		height: 100%;
@@ -240,11 +256,8 @@ nav h1 a {
 	  background-color: #ccc;
 	  height: 100%;
 	}
-}
-
-@media screen and (min-width: 768px) {
 	.maincontent__grid {
-		display: flex;
+		flex-direction: row;
 	}
 	.maincontent__column {
 		width: 50%;
@@ -254,7 +267,7 @@ nav h1 a {
     overflow: auto;
 	}
 	.maincontent__column:first-child {
-		order: 2;
+		order: 1;
 	}
 	.inside #footer {
 		position: fixed;
@@ -265,15 +278,17 @@ nav h1 a {
 
 @media screen and (min-width: 1024px) {
 	/* Map Column */
-	.maincontent__column:first-child {
-		width: 70%
+	.maincontent__column:last-child {
+		order: 2;
+		width: 65%;
 	}
 	/* Review Content Column */
-	.maincontent__column:last-child {
-		width: 30%
+	.maincontent__column:first-child {
+		order: 1;
+		width: 35%;
 	}
 	.inside #footer {
-		width: 26.25%;
+		width: 31.25%;
 	}
 }
 
@@ -341,4 +356,19 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+/* ====================== Accessibility ====================== */
+*{
+	outline: 0;
+}
+
+*:focus{
+	outline: 3px dashed blue;
+	outline-offset: 6px;
+}
+
+
+.accessiblity-link{
+	display: none;
 }

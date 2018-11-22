@@ -24,11 +24,20 @@ initMap = () => {
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
         mapboxToken: 'pk.eyJ1IjoiYWN1dGVkZXZlbG9wZXIiLCJhIjoiY2pvcWFlMDhiMDJxcDNwcGMwNGZrYnJ4YyJ9.-5ZUhLqsmoSht2Tt9dSR8g',
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a tabindex="-1" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a tabindex="-1" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a tabindex="-1" href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
       }).addTo(newMap);
+
+      // Lets skip all the map controls for Accessibility
+      document.querySelectorAll(".leaflet-control-attribution a")[0].setAttribute("tabindex", -1);
+      document.querySelectorAll(".leaflet-control-zoom-in, .leaflet-control-zoom-out").forEach(function(zoomControl) {
+        zoomControl.setAttribute("tabindex", -1);
+      });
+
+      document.querySelector("#map").setAttribute("tabindex", -1);
+
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
     }
@@ -90,6 +99,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
+  image.setAttribute("alt", restaurant.name);
+
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
@@ -127,6 +138,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
+  title.setAttribute("id", 'reviews');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -163,6 +175,8 @@ createReviewHTML = (review) => {
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
   li.appendChild(comments);
+  li.setAttribute("tabindex", "0");
+
 
   return li;
 }

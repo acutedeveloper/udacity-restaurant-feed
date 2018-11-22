@@ -80,11 +80,19 @@ initMap = () => {
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1IjoiYWN1dGVkZXZlbG9wZXIiLCJhIjoiY2pvcWFlMDhiMDJxcDNwcGMwNGZrYnJ4YyJ9.-5ZUhLqsmoSht2Tt9dSR8g',
     maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    attribution: 'Map data &copy; <a tabindex="-1" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      '<a tabindex="-1" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a tabindex="-1" href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
+
+  // Lets skip all the map controls for Accessibility
+  document.querySelectorAll(".leaflet-control-attribution a")[0].setAttribute("tabindex", -1);
+  document.querySelectorAll(".leaflet-control-zoom-in, .leaflet-control-zoom-out").forEach(function(zoomControl) {
+    zoomControl.setAttribute("tabindex", -1);
+  });
+
+  document.querySelector("#map").setAttribute("tabindex", -1);
 
   updateRestaurants();
 }
@@ -152,12 +160,19 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   addMarkersToMap();
 }
 
+createElementAttribute = (type, value) => {
+  var attr = document.createAttribute(type);
+  attr.value = value;
+
+  return attr;
+}
+
 /**
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-  const div = document.createElement('div');
+  const div = document.createElement('article');
 
   li.classList.add('restaurant__listing');
   div.classList.add('restaurant__listing-content');
@@ -165,10 +180,18 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  altTag = createElementAttribute("alt", `Picture of: ${ restaurant.name }`);
+  image.setAttributeNode(altTag);
+
   div.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+
+  // Adding Aria Role
+  var elmId = createElementAttribute("id", restaurant.name);
+  name.setAttributeNode(elmId);
+
   div.append(name);
 
   const neighborhood = document.createElement('p');
@@ -183,11 +206,16 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   more.classList.add('restaurant__listing-link');
+  ariaLabelledBy = createElementAttribute("aria-label", `View Details of the ${restaurant.name} restaurant` );
+  roleButton = createElementAttribute("role", 'button' );
+  more.setAttributeNode(ariaLabelledBy);
+  more.setAttributeNode(roleButton);
+
   div.append(more);
 
   li.append(div);
 
-  return li
+  return li;
 }
 
 /**
