@@ -71,7 +71,10 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize leaflet map, called from HTML.
  */
+
 initMap = () => {
+  if(navigator.onLine === true){
+
   self.newMap = L.map('map', {
         center: [40.722216, -73.987501],
         zoom: 12,
@@ -94,8 +97,14 @@ initMap = () => {
 
   document.querySelector("#map").setAttribute("tabindex", -1);
 
+  loadCssFile("https://unpkg.com/leaflet@1.3.1/dist/leaflet.css");
+  loadCssFile("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+
+}
+
   updateRestaurants();
 }
+
 /* window.initMap = () => {
   let loc = {
     lat: 40.722216,
@@ -157,7 +166,8 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
+
+  if(navigator.onLine === true) addMarkersToMap();
 }
 
 createElementAttribute = (type, value) => {
@@ -234,6 +244,20 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 
 }
 
+
+/**
+ * Load External CSS Files
+ */
+
+ function loadCssFile(filename){
+         var fileref=document.createElement("link")
+         fileref.setAttribute("rel", "stylesheet")
+         fileref.setAttribute("type", "text/css")
+         fileref.setAttribute("href", filename)
+     if (typeof fileref!="undefined")
+         document.getElementsByTagName("head")[0].appendChild(fileref)
+ }
+
 /*
  * Service Worker
  */
@@ -241,4 +265,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
  if(navigator.serviceWorker) {
  	navigator.serviceWorker.register('/sw.js');
  }
- 

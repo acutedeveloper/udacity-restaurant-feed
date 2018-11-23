@@ -16,6 +16,8 @@ initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
+      if(navigator.onLine === true){
+
       self.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
@@ -38,8 +40,13 @@ initMap = () => {
 
       document.querySelector("#map").setAttribute("tabindex", -1);
 
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
+
+      loadCssFile("https://unpkg.com/leaflet@1.3.1/dist/leaflet.css");
+      loadCssFile("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+    }
+
+      fillBreadcrumb();
     }
   });
 }
@@ -206,3 +213,16 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ * Load External CSS Files
+ */
+
+ function loadCssFile(filename){
+         var fileref=document.createElement("link")
+         fileref.setAttribute("rel", "stylesheet")
+         fileref.setAttribute("type", "text/css")
+         fileref.setAttribute("href", filename)
+     if (typeof fileref!="undefined")
+         document.getElementsByTagName("head")[0].appendChild(fileref)
+ }
