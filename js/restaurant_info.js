@@ -42,7 +42,7 @@ initMap = () => {
 
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
 
-      loadCssFile("https://unpkg.com/leaflet@1.3.1/dist/leaflet.css");
+      // loadCssFile("https://unpkg.com/leaflet@1.3.1/dist/leaflet.css");
       loadCssFile("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
     }
 

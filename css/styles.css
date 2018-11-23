@@ -48,6 +48,11 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+#footer a:focus{
+	outline: 1px dashed #FFF;
+	outline-offset: 3px;
+}
+
 /* ====================== Navigation ====================== */
 nav {
   background-color: #252831;
@@ -58,6 +63,10 @@ nav {
 nav h1 {
   margin: auto;
 	line-height: 1;
+}
+nav h1 a:focus{
+	outline: 3px dashed #FFF;
+	outline-offset: 6px;
 }
 nav h1 a {
   color: #fff;
@@ -111,6 +120,17 @@ nav h1 a {
   height: 400px;
   width: 100%;
   background-color: #ccc;
+}
+#map-container {
+	position: relative;
+}
+.offline-icon{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
@@ -217,12 +237,15 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
+.restaurant__listing-link:focus{
+	outline: 3px dashed #0275d8;
+	outline-offset: 6px;
+}
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
   width: 100%;
   z-index: 1000;
-	position: fixed;
 }
 .inside #map-container {
   /* background: blue none repeat scroll 0 0;
@@ -232,9 +255,7 @@ nav h1 a {
   top: 80px;
   width: 50%; */
 }
-.inside #maincontent {
-	padding-top: 138px;
-}
+
 .inside #map {
 	height: 180px;
 }
@@ -245,12 +266,16 @@ nav h1 a {
 	display: flex;
 	flex-direction: column;
 }
+.maincontent__column:first-child {
+	order: 2;
+}
+.maincontent__column:last-child {
+	order: 1;
+}
+
 @media screen and (min-width: 768px){
 	.inside #map-container {
 		height: 100%;
-	}
-	.inside #maincontent {
-		padding-top: 126px;
 	}
 	.inside #map {
 	  background-color: #ccc;
@@ -263,16 +288,22 @@ nav h1 a {
 		width: 50%;
 	}
 	.maincontent__column--overflow {
-		height: 100vh;
     overflow: auto;
-	}
-	.maincontent__column:first-child {
-		order: 1;
 	}
 	.inside #footer {
 		position: fixed;
 		bottom: 0;
 		width: 50%;
+		z-index: 1000;
+		box-sizing: border-box;
+		margin-left: 50%;
+	}
+	.maincontent__column:first-child {
+		order: 1;
+		height: 100vh;
+	}
+	.maincontent__column:last-child {
+		order: 2;
 	}
 }
 
@@ -288,7 +319,8 @@ nav h1 a {
 		width: 35%;
 	}
 	.inside #footer {
-		width: 31.25%;
+		width: 65%;
+		margin-left: 35%;
 	}
 }
 
@@ -362,14 +394,4 @@ nav h1 a {
 
 *{
 	outline: 0;
-}
-
-*:focus{
-	outline: 3px dashed blue;
-	outline-offset: 6px;
-}
-
-
-.accessiblity-link{
-	display: none;
 }

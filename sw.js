@@ -23,7 +23,7 @@ self.addEventListener('install', event => {
       .catch(error => console.log( error ))
 	);
 })
-//ss
+
 this.addEventListener('activate', function(event) {
   var cacheWhitelist = ['static-v9'];
 
@@ -38,21 +38,46 @@ this.addEventListener('activate', function(event) {
   );
 });
 
-// Intercept requests
+// Intercept request
 self.addEventListener('fetch', event => {
 
-	event.respondWith(
-		caches.match(event.request, {ignoreSearch: true})
-			// Match returns a promise if passed
-			// If fails then send the request to the network
-			.then(response => response || fetch(event.request))
-      .catch(error => {
-        if(event.request.mode === 'cors') console.log(event.request.url);
-        if(event.request.mode === 'navigate') {
-          return fetch('/');
-        } else {
-          console.log(error);
-        }
-      })
-	);
+	const url = new URL(event.request.url);
+
+		event.respondWith(
+    caches.match(event.request)
+		.then(function(response) {
+			// First check for match in the cache
+			if(response){
+				console.log('Found ', event.request.url, ' in cache');
+				return response;
+			}
+
+			console.log('Network request for ', event.request.url);
+			return fetch(event.request)
+							.then(response => {
+								if (response.status === 404) {
+          				return caches.match('/');
+        				}
+								return caches.open('static-v9')
+												.then(cache => {
+													cache.put(event.request.url, response.clone());
+          								return response;
+												})
+							}).catch(error => {
+      					return caches.match('/');
+							})
+    })
+  );
+	// 	caches.match(event.request, {ignoreSearch: true})
+	// 		// Match returns a promise if passed
+	// 		// If fails then send the request to the network
+	// 		.then(response => response || fetch(event.request))
+  //     .catch(error => {
+  //       if(event.request.mode === 'cors') console.log(event.request.url);
+  //       if(event.request.mode === 'navigate') {
+  //         return fetch('/');
+  //       } else {
+  //         return fetch('/img/1.jpg');
+  //       }
+  //     })
 });
