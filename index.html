@@ -11,7 +11,7 @@
 <body>
     <header>
         <nav>
-            <h1><a href="/">Restaurant Reviews</a></h1>
+            <h1><a href="/" aria-current="page">Restaurant Reviews</a></h1>
         </nav>
     </header>
 
@@ -25,17 +25,27 @@
                   </g>
               </g>
           </svg>
-            <div id="map" tabindex="-1"></div>
+            <div id="map" tabindex="-1" role="application"></div>
         </section>
         <section>
             <div class="filter-options">
                 <h2 id="filter-results">Filter Results</h2>
-                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledBy="filter-results">
-          <option value="all">All Neighborhoods</option>
-            </select>
-                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-labelledBy="filter-results">
-          <option value="all">All Cuisines</option>
-        </select>
+                <div class="filter-options__select-wrap">
+                    <label for="neighborhoods" id="neighborhoods">
+                    Choose Restaurant Neighborhood:
+                  </label>
+                    <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledBy="neighborhoods">
+                    <option value="all">All Neighborhoods</option>
+                  </select>
+                </div>
+                <div class="filter-options__select-wrap">
+                    <label for="cuisines" id="cuisines">
+                    Choose Restaurant Cuisines:
+                  </label>
+                    <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-labelledBy="cuisines">
+                    <option value="all">All Cuisines</option>
+                  </select>
+                </div>
             </div>
             <ul id="restaurants-list"></ul>
         </section>

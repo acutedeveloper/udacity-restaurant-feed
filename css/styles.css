@@ -139,7 +139,6 @@ nav h1 a {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 10px 20px;
-	height: 120px;
 }
 .filter-options h2 {
   color: white;
@@ -149,6 +148,23 @@ nav h1 a {
 	margin: 0;
 	margin-bottom: 10px;
 	width: 100%;
+}
+.filter-options label {
+	display: block;
+	color: #FFF;
+	margin-bottom: 10px;
+}
+.filter-options__select-wrap {
+	margin-bottom: 20px;
+}
+.filter-options__select-wrap:last-child {
+	margin-bottom: 0;
+}
+@media screen and (min-width: 768px) {
+	.filter-options__select-wrap {
+		margin-bottom: 0;
+		margin-right: 20px;
+	}
 }
 .filter-options select {
   background-color: white;
